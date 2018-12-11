@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Recipes</title>
+</head>
+<body>
+    <ul>
+        {% for item in data %}
+            <li>
+                <a href='/{{ item.author.id }}/{{ item.title }}'>{{ item.title }}, by {{ item.author.user.username }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href='/newrecipe/'>Add A Recipe</a>
+    <a href='/login/'>Login</a>
+    <a href='/signup/'>Signup</a>
+    <a href='/logout/'>Logout</a>
+</body>
+</html>
