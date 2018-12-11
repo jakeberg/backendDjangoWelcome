@@ -7,9 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import logout
 
-from backendDjangoWelcome.models import Recipe
-from backendDjangoWelcome.models import Author
+from backendDjangoWelcome.models import Recipe, Author
 from backendDjangoWelcome.forms import New_recipe, New_author, Signup_Form, Login_Form
+
 
 def homepage(request):
     html = 'recipes.html'
@@ -38,7 +38,6 @@ def author(request, author_id):
 def recipes(request, author_id, recipe_name):
     html = 'recipe.html'
 
-
     author_obj = Author.objects.all().filter(id=author_id)[0]
 
     recipes_obj = Recipe.objects.all().filter(author__id=author_obj.id).filter(title=recipe_name)
@@ -50,6 +49,7 @@ def recipes(request, author_id, recipe_name):
         }
     }
     return render(request, html, data_obj)
+
 
 @login_required()
 def add_recipe(request):
@@ -81,7 +81,6 @@ def login_view(request):
         user = authenticate(username=data['username'], password=data['password'])
         if user is not None:
             login(request, user)
-            # return HttpResponseRedirect(reverse('homepage'))
         if next:
             return HttpResponseRedirect(next)
         else:
@@ -89,11 +88,13 @@ def login_view(request):
 
     return render(request, html, {'form':form})
 
+
 def logout_view(request):
     html = 'logout.html'
     logout(request)
 
     return render(request, html)
+
 
 @staff_member_required
 def signup_view(request):
@@ -106,7 +107,7 @@ def signup_view(request):
         user = User.objects.create_user(
             data['username'], data['email'], data['password']
         )
-        author = TwitterUser.objects.create(bio='', user=user)
+        author = Author.objects.create(bio='', user=user)
         login(request, user)
         return HttpResponseRedirect(reverse('homepage'))
 
