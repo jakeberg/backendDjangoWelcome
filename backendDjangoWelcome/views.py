@@ -64,6 +64,14 @@ def edit_recipe_view(request, recipe_id):
     author_obj = Author.objects.filter(user=request.user).first()
     recipe_obj = Recipe.objects.filter(id=recipe_id).first()
 
+    if request.method == "POST":
+        description = request.POST.get("description")
+        time = request.POST.get("time")
+        instructions = request.POST.get("instructions")
+
+        Recipe.objects.filter(id=recipe_id).update(description=description, time=time, instructions=instructions)
+        return HttpResponseRedirect('/')
+
     return render(request, html, {'recipe': recipe_obj})
 
 
