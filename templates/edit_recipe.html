@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit Recipe</title>
+</head>
+
+<body>
+    <h3>
+        <a href='/'>Homepage</a>
+    </h3>
+    <h2>{{ recipe.title }}:</h2>
+    <h3>
+        by {{ request.user.username }}
+    </h3>
+
+    <form id="update" method="POST">
+        {% csrf_token %}
+        Discription:<br>
+        <textarea name="discription" rows="10" cols="50" form="update">{{ recipe.description }}</textarea><br>
+        Time:<br>
+        <input type="text" name="time" value="{{ recipe.time }}"><br>
+        Instructions:<br>
+        <textarea name="instructions" rows="10" cols="50" form="update">{{ recipe.instructions }}</textarea><br>
+        <input type='submit' value='Submit'>
+    </form>
+
+
+</body>
+
+</html>

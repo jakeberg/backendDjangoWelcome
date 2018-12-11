@@ -59,12 +59,12 @@ def my_recipes_view(request):
     return render(request, html, {'recipes': recipes_obj})
 
 
-def edit_recipe_view(request):
-    html = 'my_recipes.html'
+def edit_recipe_view(request, recipe_id):
+    html = 'edit_recipe.html'
     author_obj = Author.objects.filter(user=request.user).first()
-    recipes_obj = Recipe.objects.filter(author__id=author_obj.id).all()
+    recipe_obj = Recipe.objects.filter(id=recipe_id).first()
 
-    return render(request, html, {'recipes': recipes_obj})
+    return render(request, html, {'recipe': recipe_obj})
 
 
 @login_required()
