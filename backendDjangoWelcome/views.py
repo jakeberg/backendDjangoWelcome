@@ -51,19 +51,26 @@ def recipes(request, author_id, recipe_name):
     return render(request, html, data_obj)
 
 
+def my_recipes_view(request):
+    html = 'my_recipes.html'
+    author_obj = Author.objects.filter(user=request.user).first()
+    recipes_obj = Recipe.objects.filter(author__id=author_obj.id).all()
+
+    return render(request, html, {'recipes': recipes_obj})
+
+
+def edit_recipe_view(request):
+    html = 'my_recipes.html'
+    author_obj = Author.objects.filter(user=request.user).first()
+    recipes_obj = Recipe.objects.filter(author__id=author_obj.id).all()
+
+    return render(request, html, {'recipes': recipes_obj})
+
+
 @login_required()
 def add_recipe(request):
     html = 'add_recipe.html'
     form = New_recipe(request.user, request.POST or None)
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect('/')
-    return render(request, html, {'form':form})
-
-
-def add_author(request):
-    html = 'add_author.html'
-    form = New_author(request.POST or None)
     if form.is_valid():
         form.save()
         return HttpResponseRedirect('/')
@@ -96,7 +103,7 @@ def logout_view(request):
     return render(request, html)
 
 
-@staff_member_required
+@staff_member_required()
 def signup_view(request):
     html = 'signup.html'
 
