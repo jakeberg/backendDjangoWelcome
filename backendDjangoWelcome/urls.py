@@ -28,6 +28,7 @@ urlpatterns = [
     path('<int:author_id>/<str:recipe_name>/', views.recipes),
     path('newrecipe/', views.add_recipe),
     path('my_recipes/', views.my_recipes_view),
+    path('all_recipes/', views.all_recipes_view),
     path('my_recipes/<int:recipe_id>', views.edit_recipe_view),
     path('signup/', views.signup_view),
     path('login/', views.login_view),

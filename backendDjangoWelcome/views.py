@@ -16,7 +16,7 @@ def homepage(request):
 
     results = Recipe.objects.all()
 
-    return render(request, html, {'data': results})
+    return render(request, html, {'data': results, 'is_staff': request.user.is_staff})
 
 
 def author(request, author_id):
@@ -40,13 +40,14 @@ def recipes(request, author_id, recipe_name):
     html = 'recipe.html'
 
     author_obj = Author.objects.all().filter(id=author_id)[0]
-
     recipes_obj = Recipe.objects.all().filter(author__id=author_obj.id).filter(title=recipe_name)
+    user_logged_in = request.user.is_authenticated
 
     data_obj = {
         'data': {
             'author': author_obj,
-            'recipes': recipes_obj
+            'recipes': recipes_obj,
+            'user_logged_in': user_logged_in
         }
     }
 
@@ -66,8 +67,15 @@ def recipes(request, author_id, recipe_name):
 def my_recipes_view(request):
     html = 'my_recipes.html'
     author_obj = Author.objects.filter(user=request.user).first()
-    print(author_obj)
     recipes_obj = Recipe.objects.filter(author__id=author_obj.id).all()
+
+    return render(request, html, {'recipes': recipes_obj})
+
+
+@login_required()
+def all_recipes_view(request):
+    html = 'all_recipes.html'
+    recipes_obj = Recipe.objects.all()
 
     return render(request, html, {'recipes': recipes_obj})
 
