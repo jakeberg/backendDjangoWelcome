@@ -23,13 +23,14 @@ def author(request, author_id):
     html = 'author.html'
 
     author_obj = Author.objects.filter(id=author_id)[0]
-
     recipes_obj = Recipe.objects.filter(author=author_obj)
+    favorites_obj = author_obj.favorite.all()
 
     data_obj = {
         'data': {
             'author': author_obj,
-            'recipes': recipes_obj
+            'recipes': recipes_obj,
+            'favorites': favorites_obj
         }
     }
     return render(request, html, data_obj)
@@ -48,12 +49,24 @@ def recipes(request, author_id, recipe_name):
             'recipes': recipes_obj
         }
     }
+
+    if request.method == "POST":
+        rule = request.POST.get('rule')
+        current_author = Author.objects.filter(user=request.user).first()
+        recipe_id = request.POST.get('id')
+        recipe = Recipe.objects.filter(id=author_id).first()
+        if rule == "favorite":
+            current_author.favorite.add(recipe.id)
+        return render(request, html, data_obj)
+
     return render(request, html, data_obj)
 
 
+@login_required()
 def my_recipes_view(request):
     html = 'my_recipes.html'
     author_obj = Author.objects.filter(user=request.user).first()
+    print(author_obj)
     recipes_obj = Recipe.objects.filter(author__id=author_obj.id).all()
 
     return render(request, html, {'recipes': recipes_obj})
@@ -82,7 +95,7 @@ def add_recipe(request):
     if form.is_valid():
         form.save()
         return HttpResponseRedirect('/')
-    return render(request, html, {'form':form})
+    return render(request, html, {'form': form})
 
 
 def login_view(request):
@@ -127,6 +140,3 @@ def signup_view(request):
         return HttpResponseRedirect(reverse('homepage'))
 
     return render(request, html, {'form': form})
-
-
-

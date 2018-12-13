@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 django = "*"
+ipdb = "*"
+"pep8" = "*"
 
 [dev-packages]
 pylint = "*"

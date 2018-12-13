@@ -1,3 +1,11 @@
 {
-    "python.pythonPath": "/Users/home/.local/share/virtualenvs/backendDjangoWelcome-3_HoP4KE/bin/python"
+    "python.pythonPath": "/Users/berg/.pyenv/versions/3.7.0/bin/python",
+    "python.unitTest.promptToConfigure": false,
+    "python.unitTest.pyTestEnabled": false,
+    "python.unitTest.unittestEnabled": false,
+    "python.unitTest.nosetestsEnabled": false,
+    "python.linting.pylintEnabled": false,
+    "python.linting.pep8Enabled": true,
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": false
 }
